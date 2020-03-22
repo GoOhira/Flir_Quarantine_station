@@ -47,32 +47,37 @@ def testENIP(flug):
     path = C1.mkReqPath(0x70, 1, None)#mkReqPath(self, clas, inst, attr):
     #data = bytes.fromhex("2A 2E 69 6D 61 67 65 2E 73 79 73 69 6D 67 2E 66 75 73 69 6F 6E 2E 66 75 73 69 6F 6E 44 61 74 61 2E 66 75 73 69 6F 6E 4D 6F 64 65 03 00 00 00")
     if flug == 1:
-	    string = '.image.sysimg.fusion.fusionData.fusionMode'.encode('ascii')
-	    data = len(string).to_bytes(1,'big') + string + bytes.fromhex("03 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
-	    # Visual mode
-	    data = len(string).to_bytes(1,'big') + string + bytes.fromhex("01 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
-	    string2 = '.image.sysimg.fusion.fusionData.useLevelSpan'.encode('ascii')
-	    data = len(string2).to_bytes(1,'big') + string2 + bytes.fromhex("00 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        string = '.image.sysimg.fusion.fusionData.fusionMode'.encode('ascii')
+        data = len(string).to_bytes(1,'big') + string + bytes.fromhex("03 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        # Visual mode
+        data = len(string).to_bytes(1,'big') + string + bytes.fromhex("01 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        string2 = '.image.sysimg.fusion.fusionData.useLevelSpan'.encode('ascii')
+        data = len(string2).to_bytes(1,'big') + string2 + bytes.fromhex("00 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+    elif flug == 2:
+        # MSX mode
+        string = '.image.sysimg.fusion.fusionData.fusionMode'.encode('ascii')
+        data = len(string).to_bytes(1,'big') + string + bytes.fromhex("03 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
     else:
-	    # MSX mode
-	    string = '.image.sysimg.fusion.fusionData.fusionMode'.encode('ascii')
-	    data = len(string).to_bytes(1,'big') + string + bytes.fromhex("03 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
-	    # Visual mode
-	    data = len(string).to_bytes(1,'big') + string + bytes.fromhex("01 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
-	    string2 = '.image.sysimg.fusion.fusionData.useLevelSpan'.encode('ascii')
-	    data = len(string2).to_bytes(1,'big') + string2 + bytes.fromhex("00 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
-	    # Thermal mode
-	    data = len(string).to_bytes(1,'big') + string + bytes.fromhex("01 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
-	    string2 = '.image.sysimg.fusion.fusionData.useLevelSpan'.encode('ascii')
-	    data = len(string2).to_bytes(1,'big') + string2 + bytes.fromhex("01 00 00 00")
-	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        # MSX mode
+        string = '.image.sysimg.fusion.fusionData.fusionMode'.encode('ascii')
+        data = len(string).to_bytes(1,'big') + string + bytes.fromhex("03 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        # Visual mode
+        data = len(string).to_bytes(1,'big') + string + bytes.fromhex("01 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        string2 = '.image.sysimg.fusion.fusionData.useLevelSpan'.encode('ascii')
+        data = len(string2).to_bytes(1,'big') + string2 + bytes.fromhex("00 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        # Thermal mode
+        data = len(string).to_bytes(1,'big') + string + bytes.fromhex("01 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
+        string2 = '.image.sysimg.fusion.fusionData.useLevelSpan'.encode('ascii')
+        data = len(string2).to_bytes(1,'big') + string2 + bytes.fromhex("01 00 00 00")
+        r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
     #LED ON/OFF
     str_torch = '.system.vcam.torch'.encode('ascii')
     data = len(str_torch).to_bytes(1,'big') + str_torch + bytes.fromhex("00")   #01:ON 00:OFF
@@ -125,6 +130,12 @@ def testENIP(flug):
         print("Failed to read 0x67:", struct.unpack('<f',r[1]))
 
 
+# https://github.com/opencv/data/haarcascades/
+# git cloneして使用
+#cascade = cv2.CascadeClassifier('../opencv/data/haarcascades/haarcascade_frontalface_alt2.xml')
+cascade = cv2.CascadeClassifier('./haarcascade_frontalface_alt.xml')
+
+
 testENIP(1)
 print("acaca")
 baseurl = "172.21.48.11"
@@ -163,7 +174,7 @@ if preview_flug == 1:
         im = np.asarray(_image)[:, :, ::-1]
 
 if get_flug == 1:
-    flug = 0
+    flug = 1
     count = 0
     print("flug=0まではOK")
     with rtsp.Client(rtsp_server_uri) as client:
@@ -180,23 +191,60 @@ if get_flug == 1:
             cv2.imshow('flir', im)
             key=cv2.waitKey(1)
             #       key=input(block=False)
-            if flug==0:
+            #フラグが1の時にはカラー画像(顔検出)
+            if flug==1:
                 testENIP(1)
+                _image = client.read()
+                #_image.show()
+                im = np.asarray(_image)[:, :, ::-1]
                 cv2.imshow('flir', im)
-                time.sleep(2)
                 #r = requests.get(vis_uri)
-                flug=1
+                flug=2
                 #r = requests.get(vis_uri2)
                 print("testENIP == 1\n")
                 print("**************************\n")
                 print("im.shape=\n")
                 print(im.shape)
+                # 処理速度を高めるために画像をグレースケールに変換したものを用意
+                gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+                print("グレイスケール画像を表示....")
+                cv2.imshow('flir', gray)
+                #認識結果の保存
+                cv2.imwrite('./result/test1_gray.png', gray)
+                cv2.imwrite('./result/test1_RGB.png', im)
+                time.sleep(2)
+
+                # 顔検出
+                print("顔検出開始")
+                facerect = cascade.detectMultiScale(
+                    gray,
+                    scaleFactor=1.2,
+                    minNeighbors=3,
+                    minSize=(10, 10)
+                )
+                color = (255, 255, 255) #白
+                # 検出した場合
+                print("検出結果=")
+                print(facerect)
+                if len(facerect) > 0:
+                    print("顔面検出成功")
+
+                    #検出した顔を囲む矩形の作成
+                    for rect in facerect:
+                        cv2.rectangle(im, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=2)
+
+                    #認識結果の表示
+                    cv2.imshow('flir', im)
+                    cv2.imwrite('./result/test1_detect.png', im)
+                time.sleep(2)
+
+
             else:
                 testENIP(2)
                 cv2.imshow('flir', im)
                 time.sleep(2)
                 #r = requests.get(ir_uri)
-                flug=0
+                flug=1
                 print("testENIP == 2 \n")
             if key ==ord('q'):
                 break
