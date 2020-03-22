@@ -75,7 +75,7 @@ def testENIP(flug):
 	    r = C1.unconnSend(0x35, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
     #LED ON/OFF
     str_torch = '.system.vcam.torch'.encode('ascii')
-    data = len(str_torch).to_bytes(1,'big') + str_torch + bytes.fromhex("01")   #01:ON 00:OFF
+    data = len(str_torch).to_bytes(1,'big') + str_torch + bytes.fromhex("00")   #01:ON 00:OFF
     print(data)
     r = C1.unconnSend(0x33, path+data, random.randint(1,4026531839))  #unconnSend(self, service, data,
 
@@ -155,71 +155,75 @@ preview_flug = 0;
 get_flug = 1;
 # stream preview
 if preview_flug == 1:
-	with rtsp.Client(rtsp_server_uri) as client:
-		_image = client.read()
-		client.preview()
-		print("ababa")
-		#print(_image.shape)
-		im = np.asarray(_image)[:, :, ::-1]
+    with rtsp.Client(rtsp_server_uri) as client:
+        _image = client.read()
+        client.preview()
+        print("ababa")
+        #print(_image.shape)
+        im = np.asarray(_image)[:, :, ::-1]
 
 if get_flug == 1:
-	flug = 0
-	count = 0
-	print("flug=0まではOK")
-	with rtsp.Client(rtsp_server_uri) as client:
-		client.preview()
-		while True:
-			count = count +1
-			print(count)
-	#        process_image(_image)
-			_image = client.read()
-	        #_image.show()
-			im = np.asarray(_image)[:, :, ::-1]
-	#        image = cv2.cvtColor(_image, cv2.COLOR_RGB2BGR)
-			cv2.imshow('flir', im)
-			key=cv2.waitKey(1)
-	#       key=input(block=False)
-			if flug==0:
-				testENIP(1)
-				cv2.imshow('flir', im)
-				time.sleep(2)
-				#r = requests.get(vis_uri)
-				flug=1
-				#r = requests.get(vis_uri2)
-				print("testENIP == 1\n")
-			else:
-				testENIP(2)
-				cv2.imshow('flir', im)
-				time.sleep(2)
-				#r = requests.get(ir_uri)
-				flug=0
-				print("testENIP == 2 \n")
-			if key ==ord('q'):
-				break
+    flug = 0
+    count = 0
+    print("flug=0まではOK")
+    with rtsp.Client(rtsp_server_uri) as client:
+        client.preview()
+        while True:
+            #ループ回数を表示
+            count = count +1
+            print(count)
+    #        process_image(_image)
+            _image = client.read()
+            #_image.show()
+            im = np.asarray(_image)[:, :, ::-1]
+    #        image = cv2.cvtColor(_image, cv2.COLOR_RGB2BGR)
+            cv2.imshow('flir', im)
+            key=cv2.waitKey(1)
+            #       key=input(block=False)
+            if flug==0:
+                testENIP(1)
+                cv2.imshow('flir', im)
+                time.sleep(2)
+                #r = requests.get(vis_uri)
+                flug=1
+                #r = requests.get(vis_uri2)
+                print("testENIP == 1\n")
+                print("**************************\n")
+                print("im.shape=\n")
+                print(im.shape)
+            else:
+                testENIP(2)
+                cv2.imshow('flir', im)
+                time.sleep(2)
+                #r = requests.get(ir_uri)
+                flug=0
+                print("testENIP == 2 \n")
+            if key ==ord('q'):
+                break
 """
 # both
 #r = requests.get(login,auth=('admin', 'admin'))
 #print(r.status_code)
 while True:
-	#r = requests.post(vis_uri)
-	#print(r.status_code)
-	#print(r.content)
-	#r2 = requests.post(vis_uri2)
-	#print(r2.text)
-	#r = requests.get(http_server_uri)
-	#im = Image.open(BytesIO(r.content))
-	#img= np.asarray(im)[:, :, ::-1]
-	#cv2.imshow('flir vis', img)
-	#r = requests.post(ir_uri)
-	#print(r.content)
-	#r = requests.post(ir_uri2)
-	#print(r.text)
-	r = requests.get(rtsp_server_uri)
-	im = Image.open(BytesIO(r.content))
-	img= np.asarray(im)[:, :, ::-1]
-	cv2.imshow('flir ir', img)
+    #r = requests.post(vis_uri)
+    #print(r.status_code)
+    #print(r.content)
+    #r2 = requests.post(vis_uri2)
+    #print(r2.text)
+    #r = requests.get(http_server_uri)
+    #im = Image.open(BytesIO(r.content))
+    #img= np.asarray(im)[:, :, ::-1]
+    #cv2.imshow('flir vis', img)
+    #r = requests.post(ir_uri)
+    #print(r.content)
+    #r = requests.post(ir_uri2)
+    #print(r.text)
+    r = requests.get(rtsp_server_uri)
+    im = Image.open(BytesIO(r.content))
+    img= np.asarray(im)[:, :, ::-1]
+    cv2.imshow('flir ir', img)
 
-	key = cv2.waitKey(100)
-	if key==ord('q'):
-		break
+    key = cv2.waitKey(100)
+    if key==ord('q'):
+        break
 """
