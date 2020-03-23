@@ -183,19 +183,17 @@ if get_flug == 1:
             #ループ回数を表示
             count = count +1
             print(count)
-    #        process_image(_image)
-            _image = client.read()
-            #_image.show()
-            im = np.asarray(_image)[:, :, ::-1]
-    #        image = cv2.cvtColor(_image, cv2.COLOR_RGB2BGR)
-            cv2.imshow('flir', im)
+            #_image = client.read()
+            #im = np.asarray(_image)[:, :, ::-1]
+            #cv2.imshow('flir', im)
             key=cv2.waitKey(1)
             #       key=input(block=False)
             #フラグが1の時にはカラー画像(顔検出)
             if flug==1:
                 testENIP(1)
+                print("RGB画像に切り替え中．．．")
+                time.sleep(1)
                 _image = client.read()
-                #_image.show()
                 im = np.asarray(_image)[:, :, ::-1]
                 cv2.imshow('flir', im)
                 #r = requests.get(vis_uri)
@@ -218,11 +216,11 @@ if get_flug == 1:
                 print("顔検出開始")
                 facerect = cascade.detectMultiScale(
                     gray,
-                    scaleFactor=1.2,
+                    scaleFactor=1.1,
                     minNeighbors=3,
                     minSize=(10, 10)
                 )
-                color = (255, 255, 255) #白
+                color = (0, 255, 0) #緑
                 # 検出した場合
                 print("検出結果=")
                 print(facerect)
@@ -230,22 +228,36 @@ if get_flug == 1:
                     print("顔面検出成功")
 
                     #検出した顔を囲む矩形の作成
-                    for rect in facerect:
-                        cv2.rectangle(im, tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]), color, thickness=2)
+                    for x,y,w,h in facerect:
+                        face_gray = gray[y: y + h, x: x + w]
+                        print("face_gray.shape==")
+                        print(face_gray.shape)
+                        cv2.rectangle(
+                            im,
+                            (x, y),
+                            (x + w, y + h),
+                            (255, 255, 255),
+                            thickness=2
+                        )
 
                     #認識結果の表示
-                    cv2.imshow('flir', im)
-                    cv2.imwrite('./result/test1_detect.png', im)
+                    #cv2.imshow('flir', im)
+                    #cv2.imwrite('./result/test1_detect.png', im)
                 time.sleep(2)
 
 
             else:
                 testENIP(2)
+                print("IR画像に切り替え中．．．")
+                time.sleep(1)
+                _image = client.read()
+                im = np.asarray(_image)[:, :, ::-1]
                 cv2.imshow('flir', im)
+                print("testENIP == 2 \n")
                 time.sleep(2)
                 #r = requests.get(ir_uri)
                 flug=1
-                print("testENIP == 2 \n")
+
             if key ==ord('q'):
                 break
 """
