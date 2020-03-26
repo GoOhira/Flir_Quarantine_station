@@ -176,9 +176,13 @@ if preview_flug == 1:
 if get_flug == 1:
     flug = 1
     count = 0
+    Face_flug = False
     print("flug=0まではOK")
+
     with rtsp.Client(rtsp_server_uri) as client:
-        client.preview()
+        #client.preview()
+        print("setting...")
+        time.sleep(5)
         while True:
             #ループ回数を表示
             count = count +1
@@ -186,30 +190,31 @@ if get_flug == 1:
             #_image = client.read()
             #im = np.asarray(_image)[:, :, ::-1]
             #cv2.imshow('flir', im)
-            key=cv2.waitKey(1)
+            key=cv2.waitKey(100)
             #       key=input(block=False)
             #フラグが1の時にはカラー画像(顔検出)
             if flug==1:
                 testENIP(1)
+                time.sleep(2)
                 print("RGB画像に切り替え中．．．")
-                time.sleep(1)
                 _image = client.read()
-                im = np.asarray(_image)[:, :, ::-1]
-                cv2.imshow('flir', im)
+                RGB_img= np.asarray(_image)[:, :, ::-1]
+                cv2.imshow('flir', RGB_img)
+                time.sleep(2)
                 #r = requests.get(vis_uri)
                 flug=2
                 #r = requests.get(vis_uri2)
                 print("testENIP == 1\n")
                 print("**************************\n")
-                print("im.shape=\n")
-                print(im.shape)
+                print("RGB_img.shape=\n")
+                print(RGB_img.shape)
                 # 処理速度を高めるために画像をグレースケールに変換したものを用意
-                gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+                gray = cv2.cvtColor(RGB_img, cv2.COLOR_BGR2GRAY)
                 print("グレイスケール画像を表示....")
                 cv2.imshow('flir', gray)
                 #認識結果の保存
                 cv2.imwrite('./result/test1_gray.png', gray)
-                cv2.imwrite('./result/test1_RGB.png', im)
+                cv2.imwrite('./result/test1_RGB.png', RGB_img)
                 time.sleep(2)
 
                 # 顔検出
@@ -233,28 +238,34 @@ if get_flug == 1:
                         print("face_gray.shape==")
                         print(face_gray.shape)
                         cv2.rectangle(
-                            im,
+                            RGB_img,
                             (x, y),
                             (x + w, y + h),
                             (255, 255, 255),
                             thickness=2
                         )
+                        Face_flug = True
 
                     #認識結果の表示
-                    #cv2.imshow('flir', im)
-                    #cv2.imwrite('./result/test1_detect.png', im)
-                time.sleep(2)
+                    cv2.imshow('flir', RGB_img)
+                    cv2.imwrite('./result/test1_detect.png', RGB_img)
+                #time.sleep(2)
 
 
             else:
                 testENIP(2)
-                print("IR画像に切り替え中．．．")
-                time.sleep(1)
-                _image = client.read()
-                im = np.asarray(_image)[:, :, ::-1]
-                cv2.imshow('flir', im)
-                print("testENIP == 2 \n")
                 time.sleep(2)
+                print("IR画像に切り替え中．．．")
+                _image = client.read()
+                IR_img = np.asarray(_image)[:, :, ::-1]
+                cv2.imshow('flir', IR_img)
+                if Face_flug == True:
+                    print("Face_FlugはTrueだ！\nfacerect.shape = ")
+                    print(facerect)
+                    Face_flug = False
+                time.sleep(2)
+                print("testENIP == 2 \n")
+                #time.sleep(2)
                 #r = requests.get(ir_uri)
                 flug=1
 
